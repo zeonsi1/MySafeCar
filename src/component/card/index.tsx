@@ -29,7 +29,9 @@ export default function Card({parkingId, setShowModal, onReservationSuccess}: Ca
         <div onClick={() => handleClose()} className="modal">
             <div className="modal-content">
                 <h2 className="title-modal">Estacionamiento {parkingId} </h2>
-                <button onClick={handleReserve}>Reservar</button>
+                <div className="btn-reserve">
+                    <button onClick={handleReserve}>Reservar</button>
+                </div>
             </div>
         </div>
     );

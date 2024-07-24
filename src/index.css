@@ -68,8 +68,26 @@ button:focus-visible {
 } */
 .container-header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
+
+.title-container {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.title-container h1 {
+  margin: 0;
+}
+
+.svg-container {
+  /* Ajustes si necesitas específicos para el svg, como margen derecho si es necesario */
+}
+
 
 .modal {
   position: fixed;
@@ -93,4 +111,9 @@ button:focus-visible {
 
 .title-modal {
   text-align: center;
+}
+
+.btn-reserve{
+  display: flex; 
+  justify-content: center;
 }
