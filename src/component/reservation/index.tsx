@@ -1,40 +1,50 @@
+import { useEffect, useState } from "react";
+import { api } from "../../api/api";
 
-function Reservation() {
-    // Paso 1: Definir el estado inicial del estacionamiento como un arreglo bidimensional 5x5
-    // Cada espacio de estacionamiento inicialmente está disponible (false)
-    const initialParking = Array(5).fill(null).map(() => Array(5).fill(false));
+interface ParkingSlot {
+    id_estacionamiento: number;
+}
+
+export default function Reservation() {
+    const [parkingSlot, setParkingSlot] = useState<ParkingSlot[]>([]);
+
+    useEffect(() => {
+        getParking();
+    }, []);
+
+    const getParking = async () => { 
+        const resp = await api.get(`${import.meta.env.VITE_API_URL}estacionamiento`);
+        console.log(resp.data);
+        setParkingSlot(resp.data);
+    };
+
+    const parkingRows = [];
+    for (let i = 0; i < parkingSlot.length; i += 5){
+        parkingRows.push(parkingSlot.slice(i, i + 5));
+    }
 
     return (
-        <div>
-            {initialParking.map((row, rowIndex) => (
-                <div key={rowIndex} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {row.map((space, colIndex) => {
-                        // Calcula el número para cada cuadrado
-                        const number = rowIndex * 5 + colIndex + 1;
-                        return (
-                            <div
-                                key={colIndex}
-                                style={{
-                                    width: '80px',
-                                    height: '80px',
-                                    border: '1px solid black',
-                                    backgroundColor: space ? 'red' : 'green',
-                                    margin: '2px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    borderRadius: '20px'
-                                }}
-                            >
-                                {/* Muestra el número dentro del cuadrado */}
-                                <p style={{ margin: 0 }}>{number}</p>
-                            </div>
-                        );
-                    })}
+        
+        <div style={{ 
+            display: 'flex',
+            flexDirection: 'column', 
+            flexWrap: 'wrap', 
+            maxWidth: '500px',
+            margin: '0 auto',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100vh',
+        }}>
+            {parkingRows.map((row, rowIndex) => (
+                <div key={rowIndex} style={{ display: 'flex', flexDirection: 'row' }}>
+                    {row.map((parking) => (
+                        <div key={parking.id_estacionamiento} style={{background:'green', margin: '10px', width: '80px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid black',  borderRadius: '20px'}}>
+                            <h2>{parking.id_estacionamiento}</h2>
+                        </div>
+                    ))}
                 </div>
             ))}
         </div>
-    );
-}
 
-export default Reservation;
+    )
+}
